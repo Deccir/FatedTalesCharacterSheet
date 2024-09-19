@@ -1,0 +1,32 @@
+:root {
+  --accordion-padding: 18px;
+}
+
+.ft-accordion {
+  margin-bottom: 15px;
+
+  .toggle {
+    cursor: pointer;
+    color: white;
+    padding: var(--accordion-padding);
+    transition: .4s;
+	background-color: #3261e4;
+    width: 100%;
+    border: none;
+    text-align: left;
+  }
+
+  .content {
+    padding: 0 var(--accordion-padding);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out, padding 0.2s ease-out, border 0.2s ease-out;
+    border: 2px solid transparent;
+    border-radius: 2px;
+
+    &.open { 
+      padding: var(--accordion-padding);
+      border: 2px solid #f1f1f1;
+    }
+  }
+}

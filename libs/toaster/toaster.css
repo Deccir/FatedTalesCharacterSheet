@@ -1,0 +1,30 @@
+#toaster-overlay {
+  position: fixed;
+  top: 20px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+
+  .toast {
+	display: inline;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+	margin: 1rem;
+	align-self: flex-start;
+
+    &.success {
+      background-color: var(--success-color);
+      color: black;
+    }
+
+    &.warning {
+      background-color: var(--warning-color);
+      color: black;
+    }
+
+    &.error {
+      background-color: var(--error-color);
+      color: white;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+	"name": "fated-tales-charactersheet-interactive",
+	"version": "1.0.0",
+	"private": true,
+	"homepage": "https://deccir.github.io/FatedTalesCharacterSheet/",
+	"scripts": {
+		"start": "http-server -c-1 -p 8080"
+	},
+	"dependencies": {
+		"@types/gapi": "^0.0.47",
+		"@types/gapi.client.drive-v3": "^0.0.5"
+	}
+}

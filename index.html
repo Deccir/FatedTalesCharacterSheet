@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" class="darkmode flex-column">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+	<link rel="stylesheet" href="index.css" />
+	<script src="main.js"></script>
+	<script src="scripts/drive.js"></script>
+	<script src="scripts/dice.js"></script>
+	<script src="scripts/translation.js"></script>
+	<script src="libs/accordion/accordion.js"></script>
+	<script src="libs/toaster/toaster.js"></script>
+
+	<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+	<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+</head>
+
+<body>
+	<div class="loading-overlay hidden" id="loading-spinner-overlay">
+		<div class="loading-spinner"></div>
+	</div>
+	<div id="toaster-overlay"></div>
+
+	<main>
+		<div class="sidebar flex-row" id="sidebar">
+			<button class="ft-button" id="sidebar-toggle-button" onclick="toggleSidebar()"><i
+					class="fa-solid fa-bars"></i></button>
+
+			<div class="flex-column sidebar-content">
+				<div class="flex-row mgn-v-1">
+					<button class="ft-button" onclick="toggleDarkMode()">
+						<i class="fa-regular fa-sun"></i> / <i class="fa-regular fa-moon"></i>
+					</button>
+					<button class="ft-button" onclick="toggleLocale()">
+						DE / EN
+					</button>
+					<button class="ft-button" onclick="saveSheet()" tr="save"></button>
+					<!-- <div>
+						<button class="ft-button" onclick="setEditMode(!editModeEnabled)">EditMode</button>
+					</div> -->
+				</div>
+
+				<div class="ft-accordion" id="save-management">
+					<div class="toggle" onclick="toggleAccordion('save-management')" tr="save-file"></div>
+					<div class="content">
+						<div class="ft-accordion" id="google-drive-options">
+							<div class="toggle" onclick="toggleAccordion('google-drive-options', ['save-management'])"
+								tr="google-drive"></div>
+							<div class="content">
+								<button id="gd-authorize-button" class="ft-button hidden"
+									onclick="connectToGoogleDrive()" tr="gd-connect"></button>
+								<button id="gd-signout-button" class="ft-button hidden"
+									onclick="disconnectFromGoogleDrive()" tr="gd-disconnect"></button>
+
+								<div class="flex-row">
+									<button id="gd-load-button" class="ft-button hidden"
+										onclick="loadOtherFromGoogleDrive()" tr="gd-load"></button>
+									<button id="gd-save-button" class="ft-button hidden"
+										onclick="openSaveAsToGoogleDriveDialog()" tr="gd-save-as"></button>
+								</div>
+
+								<button id="gd-share-button" class="ft-button hidden"
+									onclick="copySharableLinkToClipboard()" tr="gd-share"></button>
+							</div>
+
+							<div class="ft-accordion" id="local-save-options">
+								<div class="toggle" onclick="toggleAccordion('local-save-options', ['save-management'])"
+									tr="save-local"></div>
+								<div class="content">
+									<button class="ft-button" onclick="openExportDialog()" tr="save-export"></button>
+									<button class="ft-button" onclick="openImportDialog()" tr="save-import"></button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ft-accordion" id="note-section">
+					<div class="toggle" onclick="toggleAccordion('note-section')" tr="notes"></div>
+					<div class="content">
+						<textarea id="notes-area" name="notes" class="ft-input w-100"></textarea>
+					</div>
+				</div>
+
+				<div class="ft-accordion" id="dice-section">
+					<div class="toggle" onclick="toggleAccordion('dice-section')" tr="dice"></div>
+					<div class="content">
+						<div class="flex-column">
+							<input id="dice-count" class="ft-input text-centered mgn-v-1" type="number" min="1"
+								onchange="limitInput(event)" value="2" />
+							<button class="ft-button w-40 centered mgn-v-1" onclick="rollDicePool()"
+								tr="roll-dice"></button>
+							<div class="flex-row space-evenly">
+								<div id="dice-result-container" class="dice-result-view ft-input">
+									<div>
+										<div tr="successes"></div>
+										<input class="text-centered blank-input" id="dice-successes" disabled />
+									</div>
+									<div>
+										||
+									</div>
+									<div>
+										<div tr="failures"></div>
+										<input class="text-centered blank-input" id="dice-failures" disabled />
+									</div>
+									<div>
+										<div tr="critical-failure"></div>
+										<input class="text-centered blank-input" id="dice-critical-failure" disabled />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="dice-container hidden" id="dice-container-template">
+							<div class="dice">
+								<div class="face front"></div>
+								<div class="face back"></div>
+								<div class="face top"></div>
+								<div class="face bottom"></div>
+								<div class="face right"></div>
+								<div class="face left"></div>
+							</div>
+						</div>
+						<div id="dice-tray">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="sheet">
+			<div class="sheet-content">
+				<div class="horizontal-section">
+					<div class="half-horizontal-section">
+						<div class="flex-column">
+							<input class="line-input edit-mode-only" type="text" id="char-name" name="char-name">
+							<label class="line-input-label" for="char-name" tr="char-name"> </label>
+							<input class="line-input edit-mode-only" type="text" id="player-name" name="player-name">
+							<label class="line-input-label" for="player-name" tr="player-name"></label>
+							<input class="line-input edit-mode-only" type="text" id="trademark" name="trademark">
+							<div class="flex-row align-center">
+								<label class="line-input-label trademark-label" for="trademark" tr="trademark"></label>
+								<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+									<span class="tooltip-text" tr="trademark-tooltip"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="half-horizontal-section">
+						<div class="flex-column">
+							<div class="flex-row flex-centered appearance-title">
+								<span tr="appearance"></span>
+								<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+									<span class="tooltip-text bottom" tr="appearance-tooltip"></span>
+								</div>
+							</div>
+							<div class="flex-row">
+								<input class="line-input half edit-mode-only" type="text" id="appearance-1"
+									name="appearance-1" oninput="fitText(event)">
+								<input class="line-input half edit-mode-only" type="text" id="appearance-2"
+									name="appearance-2" oninput="fitText(event)">
+							</div>
+							<div class="flex-row">
+								<input class="line-input half edit-mode-only" type="text" id="appearance-3"
+									name="appearance-3" oninput="fitText(event)">
+								<input class="line-input half edit-mode-only" type="text" id="appearance-4"
+									name="appearance-4" oninput="fitText(event)">
+							</div>
+							<div class="flex-row">
+								<input class="line-input half edit-mode-only" type="text" id="appearance-5"
+									name="appearance-5" oninput="fitText(event)">
+								<input class="line-input half edit-mode-only" type="text" id="appearance-6"
+									name="appearance-6" oninput="fitText(event)">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="horizontal-section flex-column">
+					<div class="flex-row flex-centered trait-title">
+						<span tr="goal"></span>
+						<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+							<span class="tooltip-text" tr="goal-tooltip"></span>
+						</div>
+					</div>
+					<input class="ft-input centered w-70 text-centered edit-mode-only" type="text" id="goal"
+						name="goal">
+				</div>
+
+				<div class="horizontal-section">
+					<div class="half-horizontal-section">
+						<div class="flex-row flex-centered trait-title">
+							<span tr="past"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="past-tooltip"></span>
+							</div>
+						</div>
+						<div class="flex-column">
+							<input class="ft-input text-centered edit-mode-only" type="text" id="past-1" name="past-1">
+							<input class="ft-input text-centered edit-mode-only" type="text" id="past-2" name="past-2">
+						</div>
+					</div>
+					<div class="half-horizontal-section">
+						<div class="flex-row flex-centered trait-title">
+							<span tr="personality"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="personality-tooltip"></span>
+							</div>
+						</div>
+						<div class="flex-column">
+							<input class="ft-input text-centered edit-mode-only" type="text" id="personality-1"
+								name="personality-1">
+							<input class="ft-input text-centered edit-mode-only" type="text" id="personality-2"
+								name="personality-2">
+						</div>
+					</div>
+				</div>
+
+				<div class="horizontal-section">
+					<div class="half-horizontal-section">
+						<div class="flex-row flex-centered trait-title">
+							<span tr="conflicts"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="conflicts-tooltip"></span>
+							</div>
+						</div>
+						<div class="flex-column">
+							<input class="ft-input text-centered edit-mode-only" type="text" id="conflict-1"
+								name="conflict-1">
+							<input class="ft-input text-centered edit-mode-only" type="text" id="conflict-2"
+								name="conflict-2">
+						</div>
+					</div>
+					<div class="half-horizontal-section">
+						<div class="flex-row flex-centered trait-title">
+							<span tr="other-traits"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="other-traits-tooltip"></span>
+							</div>
+						</div>
+						<div class="flex-column">
+							<input class="ft-input text-centered edit-mode-only" type="text" id="other-trait-1"
+								name="other-trait-1">
+							<input class="ft-input text-centered edit-mode-only" type="text" id="other-trait-2"
+								name="other-trait-2">
+						</div>
+					</div>
+				</div>
+
+				<div class="horizontal-section">
+					<div class="half-horizontal-section">
+						<div class="flex-row flex-centered trait-title">
+							<span tr="stress-points"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="stress-points-tooltip"></span>
+							</div>
+						</div>
+						<div class="flex-column">
+							<div class="flex-row centered">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-1" name="stress-1">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-2" name="stress-2">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-3" name="stress-3">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-4" name="stress-4">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-5" name="stress-5">
+							</div>
+							<div class="flex-row centered">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-6" name="stress-6">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-7" name="stress-7">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-8" name="stress-8">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-9" name="stress-9">
+								<input class="ft-stress-checkbox" type="checkbox" id="stress-10" name="stress-10">
+							</div>
+							<div class="flex-row"></div>
+						</div>
+						<div class="flex-row flex-centered trait-title">
+							<span tr="ailment"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="ailment-tooltip"></span>
+							</div>
+						</div>
+						<div class="flex-column">
+							<div class="flex-row">
+								<input class="line-input half" type="text" id="ailment-1" name="ailment-1"
+									oninput="fitText(event)">
+								<input class="line-input half" type="text" id="ailment-2" name="ailment-2"
+									oninput="fitText(event)">
+							</div>
+							<div class="flex-row">
+								<input class="line-input half" type="text" id="ailment-3" name="ailment-3"
+									oninput="fitText(event)">
+								<input class="line-input half" type="text" id="ailment-4" name="ailment-4"
+									oninput="fitText(event)">
+							</div>
+							<div class="flex-row">
+								<input class="line-input half" type="text" id="ailment-5" name="ailment-5"
+									oninput="fitText(event)">
+								<input class="line-input half" type="text" id="ailment-6" name="ailment-6"
+									oninput="fitText(event)">
+							</div>
+						</div>
+					</div>
+					<div class="half-horizontal-section">
+						<div class="flex-row flex-centered trait-title">
+							<span tr="class"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="class-tooltip"></span>
+							</div>
+						</div>
+						<span class="trait-title" tr=""></span>
+						<div class="flex-row space-between table-header-row">
+							<div tr="stress-abbrev"></div>
+							<div tr="class-name"></div>
+							<div tr="class-level"></div>
+						</div>
+						<div class="flex-column">
+							<div class="flex-row">
+								<div class="flex-column">
+									<div class="flex-row">
+										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-1-1"
+											name="class-stress-1-1">
+										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-1-2"
+											name="class-stress-1-2">
+									</div>
+									<div class="flex-row">
+										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-1-3"
+											name="class-stress-1-3">
+										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-1-4"
+											name="class-stress-1-4">
+									</div>
+								</div>
+								<input class="class-input edit-mode-only" type="text" id="class-1" name="class-1">
+								<input class="level-input edit-mode-only" type="number" id="class-1-level"
+									name="class-1-level" min=0 max=4 onchange="limitInput(event)">
+							</div>
+							<div class="flex-row">
+								<div class="flex-column">
+									<div class="flex-row">
+										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-2-1"
+											name="class-stress-2-1">
+										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-2-2"
+											name="class-stress-2-2">
+									</div>
+									<div class="flex-row">
+										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-2-3"
+											name="class-stress-2-3">
+										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-2-4"
+											name="class-stress-2-4">
+									</div>
+								</div>
+								<input class="class-input edit-mode-only" type="text" id="class-2" name="class-2">
+								<input class="level-input edit-mode-only" type="number" id="class-2-level"
+									name="class-2-level" min=0 max=4 onchange="limitInput(event)">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="horizontal-section inventory-abilities">
+					<div class="half-horizontal-section">
+						<div class="flex-row flex-centered trait-title">
+							<span tr="equipment"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="equipment-tooltip"></span>
+							</div>
+						</div>
+						<div class="flex-column">
+							<div class="inventory-grid" id="inventory-grid">
+								<div class="grid-item empty hidden" id="item-template">
+									<i class="fa fa-plus add-icon add-button"></i>
+									<div class="flex-column item-content">
+										<button class="item-delete-button"><i
+												class="fa-regular fa-trash-can"></i></button>
+										<input class="item-name ft-input text-centered edit-mode-only" type="text">
+										<textarea class="item-description ft-input"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="flex-row pad-t-1">
+								<div class="flex-column w-50">
+									<div class="flex-row flex-centered pad-b-05 header-3" tr="other-items"></div>
+									<textarea class="inventory-other" id="inventory-other"
+										name="inventory-other"></textarea>
+								</div>
+								<div class="flex-column w-50">
+									<div class="money-ap-section">
+										<div class="flex-row align-center">
+											<input class="ft-input text-centered" type="text" id="money" name="money">
+											<label class="simple-input-label" for="money" tr="money"></label>
+										</div>
+										<div class="flex-row flex-centered">
+											<input class="ft-input text-centered" type="number" id="adventure-points"
+												name="adventure-points" onchange="limitInput(event)" min=0>
+											<div class="flex-row align-center">
+												<label for="adventure-points" tr="adventure-points-abbrev"></label>
+												<div class="tooltip">
+													<i class="fa-solid fa-info-circle"></i>
+													<span class="tooltip-text" tr="adventure-points-tooltip"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="flex-column">
+										<div class="flex-row flex-centered pad-v-05 header-4">
+											<div tr="good-rations"></div>
+											<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+												<span class="tooltip-text" tr="good-rations-tooltip">
+												</span>
+											</div>
+										</div>
+										<div class="flex-row centered pad-b-1">
+											<input class="ft-stress-checkbox" type="checkbox" id="rations-uses-1"
+												name="rations-uses-1">
+											<input class="ft-stress-checkbox" type="checkbox" id="rations-uses-2"
+												name="rations-uses-2">
+											<input class="ft-stress-checkbox" type="checkbox" id="rations-uses-3"
+												name="rations-uses-3">
+											<input class="ft-stress-checkbox" type="checkbox" id="rations-uses-4"
+												name="rations-uses-4">
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="half-horizontal-section">
+						<div class="flex-row flex-centered trait-title">
+							<span tr="abilities"></span>
+							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
+								<span class="tooltip-text" tr="abilities-tooltip"></span>
+							</div>
+						</div>
+						<div class="flex-row space-between table-header-row">
+							<div tr="stress-abbrev"></div>
+							<div tr="class-name"></div>
+							<div style="margin-right: 3rem;" tr="class-level"></div>
+						</div>
+						<div class="flex-column" id="ability-container">
+							<div class="flex-row ability hidden" id="ability-template">
+								<input class="ft-stress-checkbox" type="checkbox">
+								<input class="ft-stress-checkbox" type="checkbox">
+								<input class="class-input edit-mode-only" type="text">
+								<input class="level-input edit-mode-only" type="number" min=0 max=6
+									onchange="limitInput(event)">
+								<button class="ft-button error reverse"><i class="fa-regular fa-trash-can"></i></button>
+							</div>
+						</div>
+						<div class="flex-row"><button class="add-button" onclick="addAbilityRow()"><i
+									class="fa-solid fa-plus"></i></button></div>
+					</div>
+				</div>
+
+				<div class="footer">
+
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- dialogs -->
+	<dialog id="save-to-gd-dialog">
+		<div class="flex-column">
+			<label class="line-input-label" for="gd-save-filename" tr="gd-save-filename"></label>
+			<input class="ft-input w-90" type="text" id="gd-save-filename" oninput="updateActivateGDSaveButton()">
+
+			<label class="line-input-label" for="gd-save-foldername" tr="gd-save-foldername"></label>
+			<input class="ft-input w-90" type="text" id="gd-save-foldername" disabled>
+			<button class="ft-button" onclick="createSavePicker()" tr="gd-set-save-foldername"></button>
+			<button class="ft-button" onclick="setDefaultSaveFolder()" tr="gd-default-save-foldername"></button>
+
+			<div class="flex-row space-between">
+				<button class="ft-button error" onclick="closeSaveAsToGoogleDriveDialog(false)" tr="cancel"></button>
+				<button class="ft-button success" id="close-gd-save-as-dialog"
+					onclick="closeSaveAsToGoogleDriveDialog(true)" disabled tr="save"></button>
+			</div>
+		</div>
+	</dialog>
+
+	<dialog id="load-gd-dialog">
+		<div tr="load-gd-warning"></div>
+
+		<div class="flex-row space-between">
+			<button class="ft-button error" onclick="closeLoadFromGoogleDriveDialog(false)" tr="cancel"></button>
+			<button class="ft-button success" onclick="closeLoadFromGoogleDriveDialog(true)" tr="continue"></button>
+		</div>
+	</dialog>
+
+	<dialog id="import-dialog">
+		<div class="flex-column full-size">
+			<textarea id="import-area"></textarea>
+			<div id="import-gd-warning" class="hidden" tr="import-gd-warning"></div>
+			<div class="flex-row space-between">
+				<button class="ft-button error" onclick="closeImportDialog(false)" tr="cancel"></button>
+				<button class="ft-button success" onclick="closeImportDialog(true)" tr="save-import"></button>
+			</div>
+		</div>
+	</dialog>
+
+	<dialog id="export-dialog">
+		<div class="flex-column full-size">
+			<textarea id="export-area"></textarea>
+			<button class="ft-button" onclick="closeExportDialog()" tr="close"></button>
+		</div>
+	</dialog>
+	<!-- / dialogs -->
+</body>
+
+</html>
