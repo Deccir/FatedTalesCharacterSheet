@@ -1,0 +1,1 @@
+Sheet is hosted [here](https://deccir.github.io/FatedTalesCharacterSheet)
