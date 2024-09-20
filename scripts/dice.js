@@ -1,7 +1,6 @@
 
 function rollDicePool() {
 	document.getElementById("dice-successes").value = ""
-	document.getElementById("dice-failures").value = ""
 	document.getElementById("dice-critical-failure").value = ""
 	
 	const diceElement = document.getElementById("dice-tray").children
@@ -43,7 +42,6 @@ function rollDicePool() {
 		else {
 			document.getElementById("dice-result-container").classList.remove("critical-failure")
 			document.getElementById("dice-successes").value = successes
-			document.getElementById("dice-failures").value = negatives
 		}
 	}, 1000)
 }

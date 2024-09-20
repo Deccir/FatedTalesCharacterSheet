@@ -93,10 +93,10 @@ function addAbilityRow() {
 	duplicate.setAttribute("id", "ability-" + rowId)
 	document.getElementById("ability-container").appendChild(duplicate)
 	let children = duplicate.childNodes
-	children.item(1).id = "ability-" + rowId + "-stress-1"
-	children.item(1).name = "ability-" + rowId + "-stress-1"
-	children.item(3).id = "ability-" + rowId + "-stress-2"
-	children.item(3).name = "ability-" + rowId + "-stress-2"
+	children.item(1).id = "ability-" + rowId + "-resilience-1"
+	children.item(1).name = "ability-" + rowId + "-resilience-1"
+	children.item(3).id = "ability-" + rowId + "-resilience-2"
+	children.item(3).name = "ability-" + rowId + "-resilience-2"
 	children.item(5).id = "ability-" + rowId + "-name"
 	children.item(5).name = "ability-" + rowId + "-name"
 	children.item(7).id = "ability-" + rowId + "-level"
@@ -342,8 +342,8 @@ function restoreSheet(savedFile) {
 	))
 	for (let abilityId of abilityIds) {
 		let abilityElemements = addAbilityRow().childNodes
-		abilityElemements.item(1).checked = savedFile["ability-" + abilityId + "-stress-1"]
-		abilityElemements.item(3).checked = savedFile["ability-" + abilityId + "-stress-2"]
+		abilityElemements.item(1).checked = savedFile["ability-" + abilityId + "-resilience-1"]
+		abilityElemements.item(3).checked = savedFile["ability-" + abilityId + "-resilience-2"]
 		abilityElemements.item(5).value = savedFile["ability-" + abilityId + "-name"]
 		abilityElemements.item(7).value = savedFile["ability-" + abilityId + "-level"]
 	}

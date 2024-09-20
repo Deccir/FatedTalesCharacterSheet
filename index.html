@@ -106,13 +106,6 @@
 										<input class="text-centered blank-input" id="dice-successes" disabled />
 									</div>
 									<div>
-										||
-									</div>
-									<div>
-										<div tr="failures"></div>
-										<input class="text-centered blank-input" id="dice-failures" disabled />
-									</div>
-									<div>
 										<div tr="critical-failure"></div>
 										<input class="text-centered blank-input" id="dice-critical-failure" disabled />
 									</div>
@@ -266,25 +259,25 @@
 				<div class="horizontal-section">
 					<div class="half-horizontal-section">
 						<div class="flex-row flex-centered trait-title">
-							<span tr="stress-points"></span>
+							<span tr="resilience-points"></span>
 							<div class="tooltip"><i class="fa-solid fa-info-circle"></i>
-								<span class="tooltip-text" tr="stress-points-tooltip"></span>
+								<span class="tooltip-text" tr="resilience-points-tooltip"></span>
 							</div>
 						</div>
 						<div class="flex-column">
 							<div class="flex-row centered">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-1" name="stress-1">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-2" name="stress-2">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-3" name="stress-3">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-4" name="stress-4">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-5" name="stress-5">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-1" name="resilience-1">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-2" name="resilience-2">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-3" name="resilience-3">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-4" name="resilience-4">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-5" name="resilience-5">
 							</div>
 							<div class="flex-row centered">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-6" name="stress-6">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-7" name="stress-7">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-8" name="stress-8">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-9" name="stress-9">
-								<input class="ft-stress-checkbox" type="checkbox" id="stress-10" name="stress-10">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-6" name="resilience-6">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-7" name="resilience-7">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-8" name="resilience-8">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-9" name="resilience-9">
+								<input class="ft-resilience-checkbox" type="checkbox" id="resilience-10" name="resilience-10">
 							</div>
 							<div class="flex-row"></div>
 						</div>
@@ -324,7 +317,7 @@
 						</div>
 						<span class="trait-title" tr=""></span>
 						<div class="flex-row space-between table-header-row">
-							<div tr="stress-abbrev"></div>
+							<div tr="resilience-abbrev"></div>
 							<div tr="class-name"></div>
 							<div tr="class-level"></div>
 						</div>
@@ -332,16 +325,16 @@
 							<div class="flex-row">
 								<div class="flex-column">
 									<div class="flex-row">
-										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-1-1"
-											name="class-stress-1-1">
-										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-1-2"
-											name="class-stress-1-2">
+										<input class="ft-resilience-checkbox" type="checkbox" id="class-resilience-1-1"
+											name="class-resilience-1-1">
+										<input class="ft-resilience-checkbox" type="checkbox" id="class-resilience-1-2"
+											name="class-resilience-1-2">
 									</div>
 									<div class="flex-row">
-										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-1-3"
-											name="class-stress-1-3">
-										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-1-4"
-											name="class-stress-1-4">
+										<input class="ft-resilience-checkbox" type="checkbox" id="class-resilience-1-3"
+											name="class-resilience-1-3">
+										<input class="ft-resilience-checkbox" type="checkbox" id="class-resilience-1-4"
+											name="class-resilience-1-4">
 									</div>
 								</div>
 								<input class="class-input edit-mode-only" type="text" id="class-1" name="class-1">
@@ -351,16 +344,16 @@
 							<div class="flex-row">
 								<div class="flex-column">
 									<div class="flex-row">
-										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-2-1"
-											name="class-stress-2-1">
-										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-2-2"
-											name="class-stress-2-2">
+										<input class="ft-resilience-checkbox" type="checkbox" id="class-resilience-2-1"
+											name="class-resilience-2-1">
+										<input class="ft-resilience-checkbox" type="checkbox" id="class-resilience-2-2"
+											name="class-resilience-2-2">
 									</div>
 									<div class="flex-row">
-										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-2-3"
-											name="class-stress-2-3">
-										<input class="ft-stress-checkbox" type="checkbox" id="class-stress-2-4"
-											name="class-stress-2-4">
+										<input class="ft-resilience-checkbox" type="checkbox" id="class-resilience-2-3"
+											name="class-resilience-2-3">
+										<input class="ft-resilience-checkbox" type="checkbox" id="class-resilience-2-4"
+											name="class-resilience-2-4">
 									</div>
 								</div>
 								<input class="class-input edit-mode-only" type="text" id="class-2" name="class-2">
@@ -424,13 +417,13 @@
 											</div>
 										</div>
 										<div class="flex-row centered pad-b-1">
-											<input class="ft-stress-checkbox" type="checkbox" id="rations-uses-1"
+											<input class="ft-resilience-checkbox" type="checkbox" id="rations-uses-1"
 												name="rations-uses-1">
-											<input class="ft-stress-checkbox" type="checkbox" id="rations-uses-2"
+											<input class="ft-resilience-checkbox" type="checkbox" id="rations-uses-2"
 												name="rations-uses-2">
-											<input class="ft-stress-checkbox" type="checkbox" id="rations-uses-3"
+											<input class="ft-resilience-checkbox" type="checkbox" id="rations-uses-3"
 												name="rations-uses-3">
-											<input class="ft-stress-checkbox" type="checkbox" id="rations-uses-4"
+											<input class="ft-resilience-checkbox" type="checkbox" id="rations-uses-4"
 												name="rations-uses-4">
 										</div>
 									</div>
@@ -447,14 +440,14 @@
 							</div>
 						</div>
 						<div class="flex-row space-between table-header-row">
-							<div tr="stress-abbrev"></div>
+							<div tr="resilience-abbrev"></div>
 							<div tr="class-name"></div>
 							<div style="margin-right: 3rem;" tr="class-level"></div>
 						</div>
 						<div class="flex-column" id="ability-container">
 							<div class="flex-row ability hidden" id="ability-template">
-								<input class="ft-stress-checkbox" type="checkbox">
-								<input class="ft-stress-checkbox" type="checkbox">
+								<input class="ft-resilience-checkbox" type="checkbox">
+								<input class="ft-resilience-checkbox" type="checkbox">
 								<input class="class-input edit-mode-only" type="text">
 								<input class="level-input edit-mode-only" type="number" min=0 max=6
 									onchange="limitInput(event)">
