@@ -59,7 +59,7 @@ const translations = {
 		"continue": "Weiter",
 		"close": "Schließen",
 		"successes": "Erfolge",
-		"failures": "Fehlschläge",
+		"failures": "Stress",
 		"critical-failure": "Kritischer Fehlschlag",
 		"token-client-error": "Fehler bei der Verbindung zu Google",
 		"gapi-client-get-error": "Fehler bei Dateianfrage von Google",
@@ -67,7 +67,9 @@ const translations = {
 		"gapi-client-save-error": "Fehler beim Speichern des Spielstandes in Google",
 		"copied-to-clipboard": "Link in Zwischenablage kopiert",
 		"save-import-failed": "Fehler beim Import des Spielstandes",
-		"import-gd-warning": "Warnung: Importieren trennt die Verbindung zum, aktuell in Google Drive gespeicherten, Spielstand."
+		"import-gd-warning": "Warnung: Importieren trennt die Verbindung zum, aktuell in Google Drive gespeicherten, Spielstand.",
+		"rolling-tooltip": "Du startest immer mit <b>2 Würfeln</b>.<br><br>Hat dein Charakter passende <b>Fertigkeiten oder Klassen</b> kannst du eine von ihnen wählen und erhälst zusätzliche Würfel <b>in Höhe ihres Levels</b>.<br><br>Du erhälst <b>einen zusätzlichen</b> Würfel oder <b>verlierst einen</b>, wenn du mindestens ein passendes Merkmal hast. Positive und negative Merkmale heben sich gegenseitig auf, unabhängig davon, wie viele du von jedem hast.",
+		"rolling-result-tooltip": "Würfelaugen -> Anzahl Erfolge<br>1 -> -1<br>2 -> 0<br>3-5 -> 1<br>6 -> 2"
 	},
 	"EN": {
 		"save": "Save",
@@ -129,7 +131,7 @@ const translations = {
 		"continue": "Continue",
 		"close": "Close",
 		"successes": "Successes",
-		"failures": "Failures",
+		"failures": "Stress",
 		"critical-failure": "Critical Failure",
 		"token-client-error": "Error while connecting to google",
 		"gapi-client-get-error": "Error while getting file from google",
@@ -137,7 +139,9 @@ const translations = {
 		"gapi-client-save-error": "Error while saving to google",
 		"copied-to-clipboard": "Link copied to clipboard",
 		"save-import-failed": "Error while importing the save",
-		"import-gd-warning": "Warning: Importing severs the connection to the save file currently stored in Google Drive"
+		"import-gd-warning": "Warning: Importing severs the connection to the save file currently stored in Google Drive",
+		"rolling-tooltip": "You always start with <b>2 dice</b>.<br><br>If you have matching <b>Abilities or Classes</b> you can choose one of them and gain additional dice <b>equal to the level</b> of the chosen one.<br><br>You can <b>gain one</b> additional dice or <b>loose one</b> if you have at least one matching trait. Positive and negative traits cancel each other out no matter how many of each you have.",
+		"rolling-result-tooltip": "Dice Result -> Number of Successes<br>1 -> -1<br>2 -> 0<br>3-5 -> 1<br>6 -> 2"
 	}
 }
 

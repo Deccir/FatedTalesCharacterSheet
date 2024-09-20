@@ -275,7 +275,7 @@ function restoreSheet(savedFile) {
 	for (let idx = 1; idx < gridItemCount; idx++) {
 		document.getElementById("inventory-grid").removeChild(gridItems.item(1))
 	}
-	
+
 	const itemTemplate = document.getElementById("item-template")
 	for (let idx = 0; idx < 6; idx++) {
 		const duplicate = itemTemplate.cloneNode(true)
@@ -363,7 +363,7 @@ function restoreSheet(savedFile) {
 		adjustFontSize(ailment_element, ailment_element.clientWidth)
 	}
 
-	setLocale(savedFile["language"] ?? "DE") 
+	setLocale(savedFile["language"] ?? "DE")
 }
 
 function loadFromLocalStorage(name) {
@@ -385,6 +385,38 @@ function getStyleVariable(name) {
 
 //#endregion save and load
 
-//#region logic
+//#region helper
 
-//#endregion logic
+function openTooltip(event, id, anchorId) {
+	const iconRect = event.target.getBoundingClientRect();
+
+	const anchor = document.getElementById(anchorId)
+	const anchorRect = anchor.getBoundingClientRect();
+
+	const tooltip = document.getElementById(id)
+	const tooltipRect = tooltip.getBoundingClientRect();
+
+	const paddingInPx = 0 // 18px = 1.5rem
+
+	if (tooltip.classList.contains("left")) {
+		tooltip.style.top = iconRect.top + window.scrollY - tooltipRect.height / 2 - anchorRect.top + "px";
+		tooltip.style.left = iconRect.left - paddingInPx - tooltipRect.width - anchorRect.left + "px";
+	} else if (tooltip.classList.contains("right")) {
+		tooltip.style.top = iconRect.top + window.scrollY - tooltipRect.height / 2 - anchorRect.top + "px";
+		tooltip.style.left = iconRect.right + paddingInPx - anchorRect.left + "px";
+	} else if (tooltip.classList.contains("bottom")) {
+		tooltip.style.top = iconRect.bottom + window.scrollY - anchorRect.top + "px";
+		tooltip.style.left = iconRect.left + iconRect.width - tooltipRect.width / 2 - anchorRect.left + "px";
+	} else {
+		tooltip.style.top = iconRect.top + window.scrollY - tooltipRect.height - anchorRect.top + "px";
+		tooltip.style.left = iconRect.left + iconRect.width - tooltipRect.width / 2 - anchorRect.left + "px";
+	}
+
+	tooltip.style.visibility = "visible"
+}
+
+function closeTooltip(id) {
+	const tooltip = document.getElementById(id)
+	tooltip.style.removeProperty("visibility")
+}
+//#endregion helper

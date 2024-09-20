@@ -122,7 +122,75 @@
 	border-radius: 20px;
 	border: 5px solid #f6f3f0;
 	transform-style: preserve-3d;
-	background: white
+	background: white;
+
+	&.front {
+		transform: translateZ(50px);
+	}
+
+	&.back {
+		transform: rotateX(180deg) translateZ(50px);
+	}
+
+	&.top {
+		transform: rotateX(90deg) translateZ(50px);
+	}
+
+	&.bottom {
+		transform: rotateX(-90deg) translateZ(50px);
+	}
+
+	&.right {
+		transform: rotateY(90deg) translateZ(50px);
+	}
+
+	&.left {
+		transform: rotateY(-90deg) translateZ(50px);
+	}
+
+	&.front::after {
+		width: 30px;
+		height: 30px;
+		background: #f63330 !important;
+		margin: -15px 0 0 -15px;
+	}
+
+	&.back::after {
+		margin: -35px 0 0 -30px;
+		box-shadow: 40px 0,
+			0 25px,
+			40px 25px,
+			0 50px,
+			40px 50px;
+		background: #58f630 !important;
+		color: #58f630 !important;
+	}
+
+	&.top::after {
+		margin: -30px 0 0 -30px;
+		box-shadow: 40px 40px;
+	}
+
+	&.bottom::after {
+		margin: -36px 0 0 -36px;
+		box-shadow: 26px 26px,
+			52px 52px,
+			52px 0,
+			0 52px;
+	}
+
+	&.right::after {
+		margin: -30px 0 0 -30px;
+		box-shadow: 40px 0,
+			0 40px,
+			40px 40px;
+	}
+
+	&.left::after {
+		margin: -35px 0 0 -35px;
+		box-shadow: 25px 25px,
+			50px 50px;
+	}
 }
 
 .face::before {
@@ -147,73 +215,6 @@
 	color: black;
 }
 
-.front {
-	transform: translateZ(50px);
-}
-
-.back {
-	transform: rotateX(180deg) translateZ(50px);
-}
-
-.top {
-	transform: rotateX(90deg) translateZ(50px);
-}
-
-.bottom {
-	transform: rotateX(-90deg) translateZ(50px);
-}
-
-.right {
-	transform: rotateY(90deg) translateZ(50px);
-}
-
-.left {
-	transform: rotateY(-90deg) translateZ(50px);
-}
-
-.front::after {
-	width: 30px;
-	height: 30px;
-	background: #f63330 !important;
-	margin: -15px 0 0 -15px;
-}
-
-.back::after {
-	margin: -35px 0 0 -30px;
-	box-shadow: 40px 0,
-		0 25px,
-		40px 25px,
-		0 50px,
-		40px 50px;
-	background: #58f630 !important;
-	color: #58f630 !important;
-}
-
-.top::after {
-	margin: -30px 0 0 -30px;
-	box-shadow: 40px 40px;
-}
-
-.bottom::after {
-	margin: -36px 0 0 -36px;
-	box-shadow: 26px 26px,
-		52px 52px,
-		52px 0,
-		0 52px;
-}
-
-.right::after {
-	margin: -30px 0 0 -30px;
-	box-shadow: 40px 0,
-		0 40px,
-		40px 40px;
-}
-
-.left::after {
-	margin: -35px 0 0 -35px;
-	box-shadow: 25px 25px,
-		50px 50px;
-}
 
 #dice-count {
 	width: 4rem;

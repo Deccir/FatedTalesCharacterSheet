@@ -90,8 +90,13 @@
 					<div class="toggle" onclick="toggleAccordion('dice-section')" tr="dice"></div>
 					<div class="content">
 						<div class="flex-column">
-							<input id="dice-count" class="ft-input text-centered mgn-v-1" type="number" min="1"
-								onchange="limitInput(event)" value="2" />
+							<div class="flex-row flex-centered">
+								<input id="dice-count" class="ft-input text-centered mgn-v-1" type="number" min=1 max=20
+									onchange="limitInput(event)" value="2" />
+								<i class="fa-solid fa-info-circle disconnected-tooltip-icon"
+									onmouseover="openTooltip(event, 'rolling-tooltip', 'sidebar')"
+									onmouseout="closeTooltip('rolling-tooltip')"></i>
+							</div>
 							<button class="ft-button w-40 centered mgn-v-1" onclick="rollDicePool()"
 								tr="roll-dice"></button>
 							<div class="flex-row space-evenly">
@@ -112,6 +117,10 @@
 										<input class="text-centered blank-input" id="dice-critical-failure" disabled />
 									</div>
 								</div>
+								
+								<i class="fa-solid fa-info-circle disconnected-tooltip-icon"
+									onmouseover="openTooltip(event, 'rolling-result-tooltip', 'sidebar')"
+									onmouseout="closeTooltip('rolling-result-tooltip')"></i>
 							</div>
 						</div>
 						<div class="dice-container hidden" id="dice-container-template">
@@ -127,6 +136,10 @@
 						<div id="dice-tray">
 						</div>
 					</div>
+					<!-- special tooltip cause content has overflow: hidden-->
+
+					<div class="tooltip-text left" tr="rolling-tooltip" id="rolling-tooltip"></div>
+					<div class="tooltip-text left" tr="rolling-result-tooltip" id="rolling-result-tooltip"></div>
 				</div>
 			</div>
 		</div>
