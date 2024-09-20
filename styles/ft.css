@@ -10,12 +10,9 @@
 
 	&:not(.reverse) {
 		background-color: white;
-
-		&:not(.error):not(.success) {
-			color: var(--primary-color);
-			border-color: currentColor;
-		}
-
+		color: var(--primary-color);
+		border-color: currentColor;
+		
 		&.success {
 			color: var(--success-color);
 			border-color: currentColor;
@@ -29,10 +26,7 @@
 		&:hover {
 			color: white;
 			border-color: white;
-
-			&:not(.error):not(.success) {
-				background-color: var(--primary-color);
-			}
+			background-color: var(--primary-color);
 
 			&.success {
 				background-color: var(--success-color);
@@ -46,11 +40,8 @@
 
 	&.reverse {
 		color: white;
-
-		&:not(.error):not(.success) {
-			background-color: var(--primary-color);
-			border-color: var(--primary-color);
-		}
+		background-color: var(--primary-color);
+		border-color: var(--primary-color);
 
 		&.success {
 			background-color: var(--success-color);
@@ -64,10 +55,12 @@
 
 		&:hover {
 			background-color: white;
+			color: var(--primary-color);
+			border-color: var(--primary-color);
 
-			&:not(.error):not(.success) {
-				color: var(--primary-color);
-				border-color: var(--primary-color);
+			&.success {
+				color: var(--success-color);
+				border-color: var(--success-color);
 			}
 
 			&.error {
