@@ -391,19 +391,26 @@
 										name="inventory-other"></textarea>
 								</div>
 								<div class="flex-column w-50">
-									<div class="money-ap-section">
+									<div class="ep-ap-section">
 										<div class="flex-row align-center">
-											<input class="ft-input text-centered" type="text" id="money" name="money">
-											<label class="simple-input-label" for="money" tr="money"></label>
-										</div>
-										<div class="flex-row flex-centered">
-											<input class="ft-input text-centered" type="number" id="adventure-points"
-												name="adventure-points" onchange="limitInput(event)" min=0>
+											<input class="ft-input text-centered" type="number" id="experience-points"
+												name="experience-points" onchange="limitInput(event)" min=0>
 											<div class="flex-row align-center">
-												<label for="adventure-points" tr="adventure-points-abbrev"></label>
+												<label for="experience-points" tr="experience-points-abbrev"></label>
 												<div class="tooltip">
 													<i class="fa-solid fa-info-circle"></i>
-													<span class="tooltip-text" tr="adventure-points-tooltip"></span>
+													<span class="tooltip-text" tr="experience-points-tooltip"></span>
+												</div>
+											</div>
+										</div>
+										<div class="flex-row flex-centered">
+											<input class="ft-input text-centered" type="number" id="gear-points"
+												name="gear-points" onchange="limitInput(event)" min=0>
+											<div class="flex-row align-center">
+												<label for="gear-points" tr="gear-points-abbrev"></label>
+												<div class="tooltip">
+													<i class="fa-solid fa-info-circle"></i>
+													<span class="tooltip-text" tr="gear-points-tooltip"></span>
 												</div>
 											</div>
 										</div>

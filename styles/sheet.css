@@ -254,23 +254,16 @@
 	align-items: center;
 }
 
-.money-ap-section {
+.ep-ap-section {
 	display: flex;
 	flex-direction: column;
 	padding-bottom: 0.5rem;
-	
-	>*:nth-child(1) {
-		margin-left: 0.5rem;
-		margin-right: 0.5rem;
-	}
+	align-items: center;
 }
 
-#money,
-#adventure-points {
+#experience-points,
+#gear-points {
 	margin: 0.3rem;
-}
-
-#adventure-points {
 	width: 4rem;
 	flex: 0 0 4rem;
 }
@@ -303,12 +296,9 @@
 }
 
 @media screen and (min-width: 500px) {
-	.money-ap-section{
+	.ep-ap-section{
 		flex-direction: row;
-
-		>*:nth-child(1) {
-			margin-right: 1rem;
-		}
+		justify-content: space-evenly;
 	}
 }
 
