@@ -10,13 +10,11 @@ function rollDicePool() {
 	}
 
 	let successes = 0
-	let negatives = 0
 	const diceContainerTemplate = document.getElementById("dice-container-template")
 	for (let i = document.getElementById("dice-count").value; i > 0; --i) {
 		const random = Math.floor(Math.random() * 10) % 6 + 1;
 		if (random == 1) {
 			successes -= 1
-			negatives += 1
 		}
 		else if (random == 2) { }
 		else if (random == 6) {
@@ -37,7 +35,7 @@ function rollDicePool() {
 	setTimeout(() => {
 		if (successes < 1) {
 			document.getElementById("dice-result-container").classList.add("critical-failure")
-			document.getElementById("dice-critical-failure").value = negatives
+			document.getElementById("dice-critical-failure").value = -successes
 		}
 		else {
 			document.getElementById("dice-result-container").classList.remove("critical-failure")
