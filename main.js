@@ -264,6 +264,7 @@ function restoreSheetFromLocalstorage() {
 }
 
 function restoreSheet(savedFile) {
+	clearSheet()
 	if (savedFile["darkmode"] != false) {
 		document.documentElement.classList.add("darkmode")
 	} else {
@@ -364,6 +365,36 @@ function restoreSheet(savedFile) {
 	}
 
 	setLocale(savedFile["language"] ?? "DE")
+}
+
+function clearSheet() {
+	document.documentElement.classList.add("darkmode")
+	setLocale("DE")
+
+	let matches = document.querySelectorAll("input")
+	for (let match of matches) {
+		let key = match.getAttribute("name")
+		if (key == null) {
+			continue
+		}
+
+		if (match.getAttribute("type") == "checkbox") {
+			match.checked = false
+		}
+		else {
+			match.value = null
+		}
+	}
+
+	matches = document.querySelectorAll("textarea")
+	for (let match of matches) {
+		let key = match.getAttribute("name")
+		if (key == null) {
+			continue
+		}
+
+		match.value = null
+	}
 }
 
 function loadFromLocalStorage(name) {
